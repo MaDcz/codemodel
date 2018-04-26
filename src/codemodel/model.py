@@ -47,13 +47,6 @@ class ModelNode(object):
 
     def __init__(self, data=dict()):
         super(ModelNode, self).__init__()
-
-        self.data = data
-        self.data["type"] = str(type(self))
-    #enddef
-
-    def data_dict(self):
-        return self.data
     #enddef
 
     @model_visitor_accept
