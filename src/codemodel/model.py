@@ -45,7 +45,7 @@ def model_visitor_accept(method):
 
 class ModelNode(object):
 
-    def __init__(self, data=dict()):
+    def __init__(self):
         super(ModelNode, self).__init__()
     #enddef
 

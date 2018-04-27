@@ -15,10 +15,12 @@ def class_diagram_visitor_accept(method):
 
 class Package(ModelBlockNode):
 
-    def __init__(self, name):
-        super(Package, self).__init__()
-        self.name = name
-    #enddef
+    # TODO For the purpose of deserialization the constructor can't take any custom
+    # arguments. The members will be done through properties either.
+    #def __init__(self, name):
+    #    super(Package, self).__init__()
+    #    self.name = name
+    ##enddef
 
     @class_diagram_visitor_accept
     def accept(self, visitor):
@@ -30,10 +32,12 @@ class Package(ModelBlockNode):
 
 class Class(ModelBlockNode):
 
-    def __init__(self, name):
-        super(Class, self).__init__()
-        self.name = name
-    #enddef
+    # TODO For the purpose of deserialization the constructor can't take any custom
+    # arguments. The members will be done through properties either.
+    #def __init__(self, name):
+    #    super(Class, self).__init__()
+    #    self.name = name
+    ##enddef
 
     @class_diagram_visitor_accept
     def accept(self, visitor):
@@ -45,11 +49,13 @@ class Class(ModelBlockNode):
 
 class Attribute(ModelNode):
 
-    def __init__(self, name, type):
-        super(Attribute, self).__init__()
-        self.name = name
-        self.type = type
-    #enddef
+    # TODO For the purpose of deserialization the constructor can't take any custom
+    # arguments. The members will be done through properties either.
+    #def __init__(self, name, type):
+    #    super(Attribute, self).__init__()
+    #    self.name = name
+    #    self.type = type
+    ##enddef
 
     @class_diagram_visitor_accept
     def accept(self, visitor):

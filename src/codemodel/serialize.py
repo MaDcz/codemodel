@@ -3,6 +3,11 @@ from model import *
 import sys
 
 
+# ==============================================================================
+# Serialization
+# ==============================================================================
+
+
 class ModelToDictConvertor(ModelVisitor):
 
     def __init__(self):
@@ -47,8 +52,14 @@ class ModelToDictConvertor(ModelVisitor):
     @staticmethod
     def _node_to_dict(node):
         d = dict()
-        d["type"] = str(type(node))
+        d["type"] = ModelToDictConvertor._node_type_to_string(type(node))
         return d
+    #enddef
+
+    @staticmethod
+    def _node_type_to_string(node_type):
+        return "{0}{1}{2}".format(node_type.__module__,
+                "." if node_type.__module__ else "", node_type.__name__) 
     #enddef
 
 #endclass
@@ -74,3 +85,52 @@ def to_json(node):
     # TODO Pretty-printing and minimalistic for IPC.
     return JsonEncoder().encode(node)
 #enddef
+
+
+# ==============================================================================
+# Deserialization
+# ==============================================================================
+
+
+class JsonDecoder(json.JSONDecoder):
+
+    def decode(self, s):
+        d = super(JsonDecoder, self).decode(s)
+        assert isinstance(d, dict)
+        return JsonDecoder._node_from_dict(d)
+    #enddef
+
+    @staticmethod
+    def _node_from_dict(d):
+        from pydoc import locate
+
+        def get_mandatory_value(key):
+            if key not in d:
+                raise RuntimeError("Key '{0}' is missing in the dictionary deserialized from JSON".format(key))
+            return d[key]
+        #enddef
+
+        node_type_str = get_mandatory_value("type")
+        node_type = locate(node_type_str)
+        if not node_type:
+            raise RuntimeError("Can't locate node type '{0}'".format(node_type_str))
+        elif ModelNode not in node_type.mro():
+            raise RuntimeError("The node type '{0}' isn't based on '{1}'"
+                    .format(node_type_str, ModelToDictConvertor._node_type_to_string(ModelNode)))
+
+        node = node_type()
+
+        if isinstance(node, ModelBlockNode):
+            for child_dict in d.get("nodes", []):
+                node.add(JsonDecoder._node_from_dict(child_dict))
+
+        return node
+    #enddef
+
+#endclass
+
+
+def from_json(json_str):
+    return JsonDecoder().decode(json_str)
+#enddef
+
