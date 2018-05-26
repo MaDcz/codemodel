@@ -54,8 +54,12 @@ class ModelToDictConvertor(ModelVisitor):
 
     @staticmethod
     def _node_to_dict(node):
+        import copy
+
         d = dict()
         d["type"] = ModelToDictConvertor._node_type_to_string(type(node))
+        if node.attributes:
+            d["attrs"] = copy.deepcopy(node.attributes)
         return d
     #enddef
 
@@ -122,7 +126,7 @@ class JsonDecoder(json.JSONDecoder):
                     .format(node_type_str, ModelToDictConvertor._node_type_to_string(ModelNode)))
 
         node = node_type()
-
+        node.attributes = d.get("attrs", {})
         if isinstance(node, ModelBlockNode):
             for child_dict in d.get("nodes", []):
                 node.add(JsonDecoder._node_from_dict(child_dict))

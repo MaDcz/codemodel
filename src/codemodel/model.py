@@ -1,3 +1,4 @@
+import collections
 from functools import wraps
 
 
@@ -47,6 +48,8 @@ class ModelNode(object):
 
     def __init__(self):
         super(ModelNode, self).__init__()
+
+        self._attrs = {}
     #enddef
 
     @model_visitor_accept
@@ -77,6 +80,18 @@ class ModelNode(object):
             return node
         else:
             raise TypeError("Not a ModelNode instance")
+    #enddef
+
+    @property
+    def attributes(self):
+        return self._attrs
+    #enddef
+
+    @attributes.setter
+    def attributes(self, attrs):
+        if not isinstance(attrs, dict): # FIXME The test isn't 'dictionary-like'.
+            raise TypeError("Dictionary-like object expected in place attributes")
+        self._attrs = attrs
     #enddef
 
 #endclass

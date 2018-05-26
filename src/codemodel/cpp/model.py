@@ -22,7 +22,7 @@ class Namespace(codemodel.Package):
         super(Namespace, self).__init__()
 
         if not name:
-            raise ValueError, "No name given for namespace"
+            raise ValueError("No name given for namespace")
 
         self.name = name
     #enddef
@@ -40,7 +40,7 @@ class Class(codemodel.Class):
         super(Class, self).__init__()
 
         if not name:
-            raise ValueError, "No name given for class"
+            raise ValueError("No name given for class")
 
         self.name = name
         self.struct = struct
@@ -59,9 +59,9 @@ class Method(codemodel.Operation):
         super(Method, self).__init__()
 
         if not name:
-            raise ValueError, "No name given for method"
+            raise ValueError("No name given for method")
         if retval is not None and not retval:
-            raise ValueError, "Return value cannot be empty"
+            raise ValueError("Return value cannot be empty")
         elif not retval:
             retval = "void"
 
@@ -114,7 +114,7 @@ def cpp_model_node_visit(method):
             method_impl, node_or_wrapper = get_method_impl("visit_artifact")
 
         if method_impl is None:
-            raise TypeError, "Unknown node type"
+            raise TypeError("Unknown node type")
         else:
             method_impl(node_or_wrapper)
     #enddef
