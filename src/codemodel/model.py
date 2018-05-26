@@ -36,8 +36,8 @@ def model_visitor_accept(method):
         if isinstance(visitor, ModelVisitor):
             method(self, visitor)
         else:
-            raise TypeError, "Invalid visitor type (expected %s, have %s)" \
-                    % (str(Visitor), str(type(visitor)))
+            raise TypeError("Invalid visitor type (expected %s, have %s)"
+                    % (str(Visitor), str(type(visitor))))
     #enddef
     return wrapper
 #enddef
@@ -57,7 +57,7 @@ class ModelNode(object):
     @staticmethod
     def mark_as_handled(node):
         if not isinstance(node, ModelNode):
-            raise TypeError, "Node is not a ModelNode instance (%s)" % str(type(node))
+            raise TypeError("Node is not a ModelNode instance (%s)" % str(type(node)))
         return HandledNodeWrapper(node)
     #enddef
 
@@ -76,7 +76,7 @@ class ModelNode(object):
         elif isinstance(node, ModelNode):
             return node
         else:
-            raise TypeError, "Not a ModelNode instance"
+            raise TypeError("Not a ModelNode instance")
     #enddef
 
 #endclass
@@ -91,7 +91,7 @@ class ModelBlockNode(ModelNode):
 
     def add(self, node):
         if not isinstance(node, ModelNode):
-            raise TypeError, "Added node isn't a ModelNode instance"
+            raise TypeError("Added node isn't a ModelNode instance")
         self.nodes.append(node)
         return self
     #enddef

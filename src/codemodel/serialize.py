@@ -1,5 +1,8 @@
+from __future__ import absolute_import
+
+from .model import *
+
 import json
-from model import *
 import sys
 
 

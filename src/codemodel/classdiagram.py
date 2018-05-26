@@ -1,4 +1,6 @@
-from model import *
+from __future__ import absolute_import
+
+from .model import *
 
 
 def class_diagram_visitor_accept(method):
@@ -132,7 +134,7 @@ def class_diagram_node_visit(method):
             method_impl, node_or_wrapper = get_method_impl("visit_model_node")
 
         if method_impl is None:
-            raise TypeError, "Unknown node type"
+            raise TypeError("Unknown node type")
         else:
             method_impl(node_or_wrapper)
     #enddef

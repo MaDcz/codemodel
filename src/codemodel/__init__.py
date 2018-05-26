@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
-from model import *
-from classdiagram import *
-from serialize import *
+from __future__ import absolute_import
 
-import cpp
+from .model import *
+from .classdiagram import *
+from .serialize import *
